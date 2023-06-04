@@ -71,19 +71,19 @@ const getTableData = async (table, res) => {
 
 // Consultas GET de cada tabla
 router.get("/api/owners", async (req, res) => {
-  await getTableData("DUEÑO", res);
+  await getTableData("dueño", res);
 });
 
 router.get("/api/casas", async (req, res) => {
-  await getTableData("CASA", res);
+  await getTableData("casa", res);
 });
 
 router.get("/api/inquilinos", async (req, res) => {
-  await getTableData("INQUILINO", res);
+  await getTableData("inquilino", res);
 });
 
 router.get("/api/contratos", async (req, res) => {
-  await getTableData("CONTRATO", res);
+  await getTableData("contrato", res);
 });
 
   export default router;

@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
     const {dni_est, id_curso} = req.body;
 
     try {
-      const [rows] = await pool_ej1.query('CALL INSCRIPCION(?, ?)', [dni_est, id_curso]);
+      const [rows] = await pool_ej1.query('call inscripcion(?, ?)', [dni_est, id_curso]);
       res.json(rows);
     } catch (error) {
       return res.status(500).json(error);
