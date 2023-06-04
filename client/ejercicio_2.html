@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Examen Técnico VATES| EJ2</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar {
+            width: 50vw;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar a {
+            display: block;
+            text-decoration: none;
+            color: #0c0b0b;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar a.active {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navegador flotante -->
+    <nav class="navbar">
+        <h1>Examen Técnico Vates</h1>
+        <a href="/ejercicio_1" class="nav-link">Ejercicio 1</a>
+        <a href="/ejercicio_2" class="nav-link">Ejercicio 2</a>
+    </nav>
+    <div class="container">
+
+        <h3>Ejercicio 2</h3>
+        <img src="https://res.cloudinary.com/heckiz/image/upload/v1685912377/ej_2_lbazlk.png" alt="Imagen Ejercicio 2" width="500" height="250">
+
+            <ol>
+                <li>Mostrar los datos de los dueños de la casa ubicada en Colon 714 en el barrio Centro.</li>
+                <li>¿Cuánta plata en total le deben a cada dueño del barrio Alberdi?</li>
+                <li>¿Cuál es la deuda total de cada inquilino, mostrar los datos de los inquilinos?</li>
+                <li>Mostrar los datos de las personas que poseen más de 3 casas, con apellido "Gomez".</li>
+                <li>Mostrar los datos de las personas que poseen más de 2 casas con más de 2 habitaciones.</li>
+                <li>Mostrar los datos de los inquilinos que alquilen más de 1 casa que con más de 1 habitación y sin patio.</li>
+                <li>Mostrar los datos de los dueños que tengan deudores en todas sus casas.</li>
+                <li>
+                  Calcular las siguientes estadísticas:
+                  <ol type="a">
+                    <li>Cantidad de casas de cada dueño.</li>
+                    <li>Dueño/s con más casas.</li>
+                    <li>Dueño/s con más casas en cada barrio.</li>
+                    <li>Casa que más veces se alquiló.</li>
+                  </ol>
+                </li>
+                <li>Mostrar cuantas casas hay con 3 habitaciones cuyo monto de alquiler esté entre $4500 y $5500.</li>
+              </ol>
+        <div class="row">
+
+            <div class="col-md-12">
+                <h6>Ver tablas:</h6>
+                <a href="/ejercicio_2/api/owners" class="btn btn-primary" target="_blank">Dueños</a>
+                <a href="/ejercicio_2/api/inquilinos" class="btn btn-primary" target="_blank">Inquilinos</a>
+                <a href="/ejercicio_2/api/casas" class="btn btn-primary" target="_blank">Casas</a>
+                <a href="/ejercicio_2/api/contratos" class="btn btn-primary" target="_blank">Contratos</a>
+            </div>
+        </div>
+        <ul id="dataList" class="list-group"></ul>
+    </div>
+
+    <script>
+        // Obtener el enlace activo según la ruta actual
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.navbar a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+        // Realizar la petición GET a la ruta /api/result
+        fetch('/ejercicio_2/api/result')
+            .then(response => response.json())
+            .then(data => {
+                const dataList = document.getElementById('dataList');
+                // Recorrer los datos y crear los elementos de la lista
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.classList.add('list-group-item');
+
+                    const h3 = document.createElement('h3');
+                    h3.textContent = `Nro. ${item.ejercicio}:`;
+                    const pre_query = document.createElement('pre');
+                    pre_query.textContent = item.query;
+
+    
+                    
+                    li.appendChild(h3);
+                    li.appendChild(pre_query);
+                    dataList.appendChild(li);
+                });
+            })
+            .catch(error => console.error(error));
+
+        function fetchAndDisplayData(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const result = JSON.stringify(data, null, 2);
+                    window.prompt('Datos:', result);
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+</body>
+
+</html>

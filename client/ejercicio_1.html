@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Examen Técnico | EJ1</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        .navbar {
+            width: 50vw;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar a {
+            display: block;
+            text-decoration: none;
+            color: #0c0b0b;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar a.active {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1>Examen Técnico Vates</h1>
+        <a href="/ejercicio_1" class="nav-link">Ejercicio 1</a>
+        <a href="/ejercicio_2" class="nav-link">Ejercicio 2</a>
+    </nav>
+    <div class="container">
+
+        <h3>Ejercicio 1</h3>
+        <img src="https://res.cloudinary.com/heckiz/image/upload/v1685912377/ej_1_j40owe.png" alt="Imagen Ejercicio 2" width="500" height="180">
+
+        <ol type="a">
+            <li>
+                Crear un procedimiento que se llame INSCRIPCION que permita inscribir un estudiante a un curso
+                determinado,
+                ambos ingresados por el usuario, teniendo en cuenta las siguientes restricciones:
+                <ol type="a">
+                    <li>El estudiante debe estar ya registrado, en caso de no estarlo, indicar mediante un mensaje de
+                        error.
+                    </li>
+                    <li>El curso debe estar ya registrado, en caso de no estarlo, indicar mediante un mensaje de error.
+                    </li>
+                    <li>Validar que el alumno ingresado no esté en el curso a inscribir, en caso de estarlo, indicar
+                        mediante un mensaje de error.</li>
+                    <li>Informar mediante un mensaje, si la ejecución fue correctamente realizada.</li>
+                </ol>
+            </li>
+        </ol>
+        <form action="/ejercicio_1" method="POST">
+            <div class="form-group">
+                <label for="dni">DNI:</label>
+                <input type="text" class="form-control" id="dni" name="dni" required>
+            </div>
+            <div class="form-group">
+                <label for="curso">Número de curso:</label>
+                <input type="number" class="form-control" id="curso" name="curso" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+        <div class="bg-dark p-5 m-2 text-white bold " id="respuesta"></div>
+    </div>
+
+    <script>
+        // Obtener el enlace activo según la ruta actual
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.navbar a');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+        // Seleccionar el formulario y el elemento de respuesta
+        const form = document.querySelector('form');
+        const respuesta = document.querySelector('#respuesta');
+
+        // Agregar un controlador de eventos para el envío del formulario
+        form.addEventListener('submit', async (event) => {
+            // Evitar el comportamiento predeterminado del formulario
+            event.preventDefault();
+            // Obtener los datos del formulario
+            const formData = new FormData(form);
+            const dni_est = formData.get('dni');
+            const id_curso = formData.get('curso');
+            // Enviar los datos al servidor utilizando fetch
+            const response = await fetch('/ejercicio_1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ dni_est, id_curso })
+            });
+            // Obtener la respuesta del servidor como texto
+            const text = await response.json();
+            // Mostrar la respuesta en el elemento de respuesta
+            respuesta.textContent = JSON.stringify(text, undefined, 2)
+            window.scrollTo(0, document.body.scrollHeight);
+
+        });
+    </script>
+</body>
+
+</html>
